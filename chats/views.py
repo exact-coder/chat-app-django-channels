@@ -16,5 +16,9 @@ def chatPage(request, username):
     user_obj = User.objects.get(username=username)
     users = User.objects.exclude(username=request.user.username)
 
-    
-    return render(request, 'main_chat.html', context={'user': user_obj, 'users': users})
+    if request.user.id > user_obj.id: # type: ignore
+        thread_name = f'chat_{request.user.id}-{user_obj.id}' # type: ignore
+    else:
+        thread_name = f'chat_{user_obj.id}-{request.user.id}' # type: ignore
+    message_obj = ChatModel.objects.filter(thread_name=thread_name)
+    return render(request, 'main_chat.html', context={'user': user_obj, 'users': users,'messages':message_obj})

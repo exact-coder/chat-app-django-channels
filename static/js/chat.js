@@ -11,8 +11,30 @@ socket.onopen = function(e){
 }
 
 socket.onmessage = function(e){
-    console.log("MESSAGE OPEN");
-    console.log(e);
+    const data = JSON.parse(e.data);
+    console.log(data);
+
+    if(data.username == message_username){
+        document.querySelector('#chat-body').innerHTML += `
+        <tr>
+        <td>
+            <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
+                ${data.message}
+            </p>
+        </td>
+        </tr>
+        `;
+    }else{
+        document.querySelector('#chat-body').innerHTML += `
+        <tr>
+        <td>
+            <p class="p-2 mt-2 mr-5 text-light shadow-sm float-left rounded" style="background-color:#000">
+                ${data.message}
+            </p>
+        </td>
+        </tr>
+        `;
+    }
 }
 
 socket.onclose = function(e){
@@ -24,4 +46,18 @@ socket.onerror = function(e){
     console.log(e);
 }
 
-// no -02, len- 00.00min
+
+document.querySelector('#chat-message-submit').onclick = function (e){
+    const message_input = document.querySelector('#message_input');
+    const message = message_input.value;
+
+    socket.send(JSON.stringify({
+        'message':message,
+        'username': message_username,
+    }));
+    message_input.value = "";
+}
+
+// no -04, len- 00.00min
+
+
