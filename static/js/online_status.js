@@ -19,4 +19,4 @@ online_status.onclose = function(e){
 }
 
 
-// no -04, len- 00.35min
+// no -04, len- 00.45min
