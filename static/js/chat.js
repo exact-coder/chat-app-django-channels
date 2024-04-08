@@ -6,7 +6,7 @@ const socket = new WebSocket(
 )
 
 socket.onopen = function(e){
-    console.log("CONNECTION ESTRABLISHED");
+    console.log("CONNECTION ESTRABLISHED In CHAT.JS");
     console.log(e);
 }
 
@@ -39,6 +39,7 @@ socket.onmessage = function(e){
 
 socket.onclose = function(e){
     console.log("CONNECTION CLOSED");
+    console.log(e);
 }
 
 socket.onerror = function(e){
@@ -58,6 +59,5 @@ document.querySelector('#chat-message-submit').onclick = function (e){
     message_input.value = "";
 }
 
-// no -04, len- 00.00min
 
 

@@ -56,3 +56,20 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_message(self,username,thread_name,message):
         ChatModel.objects.create(sender=username,message=message,thread_name=thread_name)
+
+class OnlineStatusConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name = 'user'
+        await self.channel_layer.group_add( # type: ignore
+            self.room_group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
+    async def disconnect(self, code):
+        self.channel_layer.group_discard( # type: ignore
+            self.room_group_name,
+            self.channel_name
+        )
+
